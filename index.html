@@ -147,34 +147,10 @@
             var loginQuery = MP.api.funnel('Log in succeeded', 'Logged out', funnelParams);
             loginQuery.done(function(json) {
               console.log(json);
-              var values = json.data.values;
-              var data = _.values(json.data.values)[0];
-
-              /* iterate through the keys in the values dictionary in reverse order.  grab the first and second that have data*/
-              var sortedKeys = _.keys(data)
-
-              /* sort and reverse */
-              sortedKeys.sort()
-              sortedKeys.reverse()
-              var current = 0
-              var lastMinute = 0
-              var count = 0
-
-              while (count <= sortedKeys.length) {
-                  if (data[sortedKeys[count]] > 0) {
-                      console.log(sortedKeys[count])
-                      console.log(sortedKeys[count + 1])
-                      current = data[sortedKeys[count]]
-                      try {
-                          lastMinute = data[sortedKeys[count + 1]]
-                      } catch (err){
-                          lastMinute = data[sortedKeys[0]]
-                      }
-                      break;
-                  }
-                  count ++
-              }
-
+              debugger;
+              var values = json[0];
+              var count = value[1]['count'] > value[0]['count'] ? value[1]['count'] : value[0]['count']
+              
               var totalCurrentUsers = current + lastMinute;
               $('.current-users').text(addCommas(totalCurrentUsers));
               /* Show this now */
