@@ -12,9 +12,7 @@
     <link rel="stylesheet" type="text/css" href="https://a7fd22d7f1e3c3ec503950ff3eb0ca354866665d.googledrive.com/host/0BxwayM8qQaCVMk14UTA0V2JuSVU">
     <link rel="stylesheet" type="text/css" href="https://5a4961e5c9f1459a1c463234568af125d8e1b386.googledrive.com/host/0BxwayM8qQaCVRmRCSDlXUUtMMnc/">
     <link rel="stylesheet" type="text/css" href="https://201420392a7158f07d53a8f3e71606645ab03bd2.googledrive.com/host/0BxwayM8qQaCVQldvY2U5Um9FN3M">
-    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
-
+   
 
   </head>
   <body class="mixpanel-platform-body">
@@ -41,7 +39,7 @@
                         <div class="col-xs-4 text-center bg-primary-dark pv-lg">
                            <em class="icon-speedometer fa-3x"></em>
                         </div>
-                        <div class="col-xs-8 pv-lg">
+                        <div class="col-xs-11 pv-lg">
                            <div class="h2 mt0 current-users text-center">0</div>
                            <div class="text-uppercase text-center">Logins</div>
                         </div>
@@ -56,7 +54,7 @@
                            <em class="icon-users fa-3x"></em>
                         </div>
                         <div class="col-xs-11 pv-lg">
-                           <div class="h2 mt0 monthly-actives">0
+                           <div class="h2 mt0 monthly-actives text-center">0
                               <!--<small>GB</small>-->
                            </div>
                            <div class="text-uppercase text-center">QAU'S</div>
@@ -147,11 +145,11 @@
             var loginQuery = MP.api.funnel('Log in succeeded', 'Logged out', funnelParams);
             loginQuery.done(function(json) {
               console.log(json);
-              debugger;
-              var values = json[0];
+             
+              var values = _.values(json[0]);
+              console.log(values)
               var count = values[1]['count'] > values[0]['count'] ? values[1]['count'] : values[0]['count']
-              
-              var totalCurrentUsers = current + lastMinute;
+              console.log(count);
               $('.current-users').text(addCommas(count));
               /* Show this now */
 
@@ -159,20 +157,20 @@
             /* Query for Monthly Active Users */
             var monthlyQuery = MP.api.query('/api/2.0/events/', {event:events, unit: 'month', union: 1, type:'unique'}, {dataType: 'json'}) 
             monthlyQuery.done(function(json){
-                console.log(json)
                 var data = _.values(json.data.values)
                 var monthlyActives = _.values(data[0])[0]
-
+                console.log(monthlyActives)
                 $('.monthly-actives').text(addCommas(monthlyActives));
             });
 
-            var dailyQuery = MP.api.query('/api/2.0/events/', {event:["Licensed Content Purchase","Purchase"], unit: 'week', interval:1, union:1}, {dataType: 'json'});
+            var dailyQuery = MP.api.query('/api/2.0/events/', {event:events, unit: 'week', interval:1, union:1}, {dataType: 'json'});
             dailyQuery.done(function(json){
 
                 var data = _.values(json.data.values)[0];
                 var dataKeys = _.keys(data).sort().reverse()
                 var dailyActives = data[dataKeys[0]];
                 console.log(dailyActives);
+               
                 $('.daily-actives').text(addCommas(dailyActives));
             })
             /* Date Refresh */
