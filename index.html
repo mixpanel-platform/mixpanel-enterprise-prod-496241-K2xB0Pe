@@ -56,7 +56,7 @@
                            <em class="icon-users fa-3x"></em>
                         </div>
                         <div class="col-xs-11 pv-lg">
-                           <div class="h2 mt0 monthly-actives pull-left">0
+                           <div class="h2 mt0 monthly-actives">0
                               <!--<small>GB</small>-->
                            </div>
                            <div class="text-uppercase text-center">QAU'S</div>
@@ -149,10 +149,10 @@
               console.log(json);
               debugger;
               var values = json[0];
-              var count = value[1]['count'] > value[0]['count'] ? value[1]['count'] : value[0]['count']
+              var count = values[1]['count'] > values[0]['count'] ? values[1]['count'] : values[0]['count']
               
               var totalCurrentUsers = current + lastMinute;
-              $('.current-users').text(addCommas(totalCurrentUsers));
+              $('.current-users').text(addCommas(count));
               /* Show this now */
 
             })
