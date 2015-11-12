@@ -55,11 +55,11 @@
                         <div class="col-xs-4 text-center bg-purple-dark pv-lg">
                            <em class="icon-users fa-3x"></em>
                         </div>
-                        <div class="col-xs-8 pv-lg">
-                           <div class="h2 mt0 monthly-actives">0
+                        <div class="col-xs-11 pv-lg">
+                           <div class="h2 mt0 monthly-actives pull-left">0
                               <!--<small>GB</small>-->
                            </div>
-                           <div class="text-uppercase">QAU'S</div>
+                           <div class="text-uppercase text-center">QAU'S</div>
                         </div>
                      </div>
                   </div>
@@ -71,9 +71,9 @@
                         <div class="col-xs-4 text-center bg-green-dark pv-lg">
                            <em class="icon-energy fa-3x"></em>
                         </div>
-                        <div class="col-xs-8 pv-lg">
+                        <div class="col-xs-11 pv-lg">
                            <div class="h2 mt0 daily-actives text-center">0</div>
-                           <div class="text-uppercase">MAU's</div>
+                           <div class="text-uppercase text-center">MAU's</div>
                         </div>
                      </div>
                   </div>
@@ -135,8 +135,16 @@
               from_date:2015-10-13
               unit:day
           */
-            var downloadsQuery = MP.api.query('/api/2.0/segmentation/', {event:'App Open', unit: 'week',type:'unique'})
-            downloadsQuery.done(function(json) {
+            // var loginQuery = MP.api.query('/api/2.0/arb_funnels/', {event:'App Open', unit: '',type:'unique'})
+            var funnelParams = {
+                from: moment().subtract(3, 'months'),
+                to: moment(),
+                limit: 100,                             // maximum number of results to return
+                length: 14,                             // number of days each user has to complete the funnel
+                
+            };
+            var loginQuery = MP.api.funnel()
+            loginQuery.done(function(json) {
               console.log(json);
               var values = json.data.values;
               var data = _.values(json.data.values)[0];
