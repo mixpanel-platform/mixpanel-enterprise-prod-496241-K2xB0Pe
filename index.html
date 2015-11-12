@@ -231,8 +231,8 @@
             $('.date-time').text(time);
             $('.date-pm').text(ampm);
           
-            var eventParams = {limit: 25, type:'unique', unit:'minute'}
-            var eventsQuery = MP.api.topEvents(eventParams)
+            var eventParams = {event:events, limit: 25, type:'general', from:moment(), to:moment()}
+            var eventsQuery = MP.api.query('api/2.0/events', eventParams)
 
             eventsQuery.done(function(results){
                 var data = {}
