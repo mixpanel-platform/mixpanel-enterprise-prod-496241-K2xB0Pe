@@ -140,7 +140,8 @@
                 from: moment().subtract(3, 'months'),
                 to: moment(),
                 limit: 100,                             // maximum number of results to return
-                length: 14,                             // number of days each user has to complete the funnel
+                length: 90,
+                interval: 90
                 
             };
             var loginQuery = MP.api.funnel('Log in succeeded', 'Logged out', funnelParams);
