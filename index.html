@@ -239,7 +239,7 @@
                 var values = results.data.values;
                 console.log(values)
                 
-                _.each(_.keys(values, function(key){
+                _.each(_.keys(values), function(key){
                     /* sum over data in value of results.values()[key] */
                     var keyData = values[key];
                     var sortedKeys = _.keys(keyData)
@@ -270,7 +270,7 @@
                     var totalCurrentUsers = current + lastMinute;
                     data[toTitleCase(key.replace("/ffl/",""))] = totalCurrentUsers
                     
-                }));
+                });
                   
 
                 var table = $('#datatable1').DataTable();
