@@ -13,6 +13,9 @@
     <link rel="stylesheet" type="text/css" href="https://5a4961e5c9f1459a1c463234568af125d8e1b386.googledrive.com/host/0BxwayM8qQaCVRmRCSDlXUUtMMnc/">
     <link rel="stylesheet" type="text/css" href="https://201420392a7158f07d53a8f3e71606645ab03bd2.googledrive.com/host/0BxwayM8qQaCVQldvY2U5Um9FN3M">
    
+   
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
 
   </head>
   <body class="mixpanel-platform-body">
@@ -41,7 +44,7 @@
                         </div>
                         <div class="col-xs-11 pv-lg">
                            <div class="h2 mt0 current-users text-center">0</div>
-                           <div class="text-uppercase text-center">Logins</div>
+                           <div class="text-uppercase text-center">Quart. Logins</div>
                         </div>
                      </div>
                   </div>
@@ -97,6 +100,45 @@
                   <!-- END date widget    -->
                </div>
             </div>
+            <div class="row">
+                  <div class="col-lg-12">
+                     <div class="panel panel-default">
+                        <div class="panel-heading text-center">
+                           Real-Time Engagement -- What's happening on the App today?
+                        </div>
+                        <div class="panel-body">
+                         <div id="datatable1_wrapper" class="dataTables_wrapper form-inline no-footer">
+                          <div class="row">
+                            <div class="col-xs-6">
+                              <div class="dataTables_length" id="datatable1_length"></div></div><div class="col-xs-6"><div id="datatable1_filter" class="dataTables_filter"></div></div></div>
+                                <table id="datatable1" class="table table-striped table-hover dataTable no-footer" role="grid" aria-describedby="datatable1_info">
+                              	  <thead>
+	                                <tr role="row">
+	                                  <th class="sorting_asc" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 161px;">Top Events</th>
+	                                  <th class="sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 237px;">Counts</th>
+	                                  <th class="sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 237px;">Percentage Difference</th>
+                                   	</tr>
+                                  </thead>
+                                  <tbody>
+                                  		
+                                  </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="dataTables_info" id="datatable1_info" role="status" aria-live="polite">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="datatable1_paginate">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
          
         </div>
 
@@ -188,7 +230,63 @@
             $('.date-day').text(day.toString());
             $('.date-time').text(time);
             $('.date-pm').text(ampm);
+          
+            var eventParams = {limit: 25, type:'unique', unit:'minute'}
+            var eventsQuery = MP.api.topEvents(eventParams)
 
+            eventsQuery.done(function(results){
+                var data = {}
+                console.log(results);
+                debugger;
+                /*
+                _.each(_.keys(results.values()), function(key){
+                     sum over data in value of results.values()[key] 
+                    var keyData = results.values()[key];
+                    var sortedKeys = _.keys(keyData)
+
+                    sort and reverse 
+                    sortedKeys.sort()
+                    sortedKeys.reverse()
+
+                    var current = 0
+                    var lastMinute = 0
+                    var count = 0
+
+                    while (count <= sortedKeys.length) {
+                        if (keyData[sortedKeys[count]] > 0) {
+                            console.log(sortedKeys[count])
+                            console.log(sortedKeys[count + 1])
+                            current = keyData[sortedKeys[count]]
+                            try {
+                                lastMinute = keyData[sortedKeys[count + 1]]
+                            } catch (err){
+                                lastMinute = keyData[sortedKeys[0]]
+                            }
+                            break;
+                        }
+                        count ++
+                    }
+                    
+                    var totalCurrentUsers = current + lastMinute;
+                    data[toTitleCase(key.replace("/ffl/",""))] = totalCurrentUsers
+                    */
+                });
+
+
+                var table = $('#datatable1').DataTable();
+
+                /* Clear it before we Draw Again */
+
+                table.clear();
+
+                /* Draw new Rows */
+
+                _.each(_.keys(data), function(datum){
+                    table.row.add([datum,data[datum]]).draw(false);
+                });
+
+                /* Sort by second column */
+                table.order([1, 'desc']).draw();
           
         }
 
